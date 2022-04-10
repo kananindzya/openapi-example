@@ -1,0 +1,99 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI hello world
+  description: 'This is a sample server Hello world server.  You can find out more about     Swagger
+    at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).'
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://helloworld.swagger.io/v2HelloWorld
+  - url: http://helloworld.swagger.io/v2
+tags:
+  - name: helloworld
+    description: Everything about hello world message
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /helloworld:
+     post:
+      tags:
+      - helloworld
+      summary: Create hello message if not exists only
+      operationId: addHelloWorldMessage
+      requestBody:
+        description: Creates hello world message if not exists only
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelloWorld'
+        required: true
+      responses:
+        405:
+          description: Validation exception
+          content: { }
+    put:
+      tags:
+        - helloworld
+      summary: Override default hello message
+      operationId: updateHelloWorldMessage
+      requestBody:
+        description: Updates default hello message
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelloWorld'
+        required: true
+      responses:
+        404:
+          description: Hello world message not found
+          content: {}
+        405:
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: body
+
+    get:
+      tags:
+        - helloworld
+      summary: Gets hello world message
+      description: Multiple status values can be provided with comma separated strings
+      operationId: getHelloWorldMessage
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/HelloWorld'
+        400:
+          description: Invalid status value
+          content: {}
+    delete:
+      tags:
+        - helloworld
+      summary: Deletes a default hello world message
+      operationId: deleteHelloWorldMessage
+      responses:
+        404:
+          description: Hello world not found
+          content: {}
+
+components:
+  schemas:
+    HelloWorld:
+      type: object
+      properties:
+        message:
+          type: string
+          description: hello world message
